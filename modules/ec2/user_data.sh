@@ -19,6 +19,8 @@ systemctl daemon-reexec
 systemctl enable docker
 systemctl start docker
 
+usermod -aG docker ec2-user
+
 sleep 10
 
 # =========================
