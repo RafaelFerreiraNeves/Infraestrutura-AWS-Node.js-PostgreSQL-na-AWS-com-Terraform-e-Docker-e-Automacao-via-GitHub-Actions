@@ -25,22 +25,8 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/node-app:latest
 
-      - name: Deploy na EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/node-app:latest
-            
-            docker stop node-app || true
-            docker rm node-app || true
-
-            docker run -d -p 3000:3000 \
-              --name node-app \
-              -e DB_HOST="${{ secrets.DB_HOST }}" \
-              -e DB_USER="${{ secrets.DB_USER }}" \
-              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-              -e DB_NAME="${{ secrets.DB_NAME }}" \
-              ${{ secrets.DOCKER_USERNAME }}/node-app:latest
+      - name: Exibir variáveis (debug opcional)
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}"
+          echo "DB_USER=${{ secrets.DB_USER }}"
+          echo "DB_NAME=${{ secrets.DB_NAME }}"
